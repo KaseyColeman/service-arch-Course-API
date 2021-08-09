@@ -124,7 +124,7 @@ func findIndexByCourseID(id int) int {
 }
 
 var courseList = []*Course{
-	&Course{
+	{
 		ID:          1,
 		Name:        "english",
 		Code: "adc-adb-adg",
@@ -133,7 +133,7 @@ var courseList = []*Course{
 		StartDate: "8/2/22",
 		EndDate: "4/5/24",
 	},
-	&Course{
+	{
 		ID:          1,
 		Name:        "math",
 		Code: "adc-adb-adg",
