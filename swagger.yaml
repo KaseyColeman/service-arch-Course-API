@@ -1,0 +1,191 @@
+basePath: /
+consumes:
+- application/json
+definitions:
+  Course:
+    description: Course defines the structure for an API course
+    properties:
+      code:
+        description: the Code for the course
+        pattern: '[a-z]+-[a-z]+-[a-z]+'
+        type: string
+        x-go-name: Code
+      endDate:
+        description: date the course starts
+        maxLength: 255
+        type: string
+        x-go-name: EndDate
+      id:
+        description: the id for the course
+        format: int64
+        minimum: 1
+        type: integer
+        x-go-name: ID
+      instructor:
+        description: the name for the instructor
+        maxLength: 255
+        type: string
+        x-go-name: InstructorName
+      name:
+        description: the name for this course
+        maxLength: 255
+        type: string
+        x-go-name: Name
+      startDate:
+        description: date the course starts
+        maxLength: 255
+        type: string
+        x-go-name: StartDate
+      time:
+        description: date the course starts
+        maxLength: 255
+        type: string
+        x-go-name: CourseTime
+    required:
+    - name
+    - code
+    - instructor
+    - time
+    - startDate
+    - endDate
+    type: object
+    x-go-package: module/data
+  GenericError:
+    description: GenericError is a generic error message returned by a server
+    properties:
+      message:
+        type: string
+        x-go-name: Message
+    type: object
+    x-go-package: module/handlers
+  ValidationError:
+    description: ValidationError is a collection of validation error messages
+    properties:
+      messages:
+        items:
+          type: string
+        type: array
+        x-go-name: Messages
+    type: object
+    x-go-package: module/handlers
+info:
+  description: Documentation for Course API
+  title: of Course API
+  version: 1.0.0
+paths:
+  /courses:
+    get:
+      description: Return a list of Courses from the database
+      operationId: listCourses
+      responses:
+        "200":
+          $ref: '#/responses/courseResponse'
+      tags:
+      - courses
+    post:
+      description: Create a new product
+      operationId: createCourse
+      parameters:
+      - description: |-
+          Course data structure to Update or Create.
+          Note: the id field is ignored by update and create operations
+        in: body
+        name: Body
+        required: true
+        schema:
+          $ref: '#/definitions/Course'
+      responses:
+        "200":
+          $ref: '#/responses/courseResponse'
+        "422":
+          $ref: '#/responses/errorValidation'
+        "501":
+          $ref: '#/responses/errorResponse'
+      tags:
+      - courses
+    put:
+      description: Update a courses details
+      operationId: updateCourse
+      parameters:
+      - description: |-
+          Course data structure to Update or Create.
+          Note: the id field is ignored by update and create operations
+        in: body
+        name: Body
+        required: true
+        schema:
+          $ref: '#/definitions/Course'
+      responses:
+        "201":
+          $ref: '#/responses/noContentResponse'
+        "404":
+          $ref: '#/responses/errorResponse'
+        "422":
+          $ref: '#/responses/errorValidation'
+      tags:
+      - courses
+  /courses/{id}:
+    delete:
+      description: Update a products details
+      operationId: deleteCourse
+      parameters:
+      - description: The id of the course for which the operation relates
+        format: int64
+        in: path
+        name: id
+        required: true
+        type: integer
+        x-go-name: ID
+      responses:
+        "201":
+          $ref: '#/responses/noContentResponse'
+        "404":
+          $ref: '#/responses/errorResponse'
+        "501":
+          $ref: '#/responses/errorResponse'
+      tags:
+      - courses
+    get:
+      description: Return a list of course from the database
+      operationId: listSingleCourse
+      parameters:
+      - description: The id of the course for which the operation relates
+        format: int64
+        in: path
+        name: id
+        required: true
+        type: integer
+        x-go-name: ID
+      responses:
+        "200":
+          $ref: '#/responses/courseResponse'
+        "404":
+          $ref: '#/responses/errorResponse'
+      tags:
+      - courses
+produces:
+- application/json
+responses:
+  courseResponse:
+    description: Data structure representing a single course
+    schema:
+      $ref: '#/definitions/Course'
+  coursesResponse:
+    description: A list of courses
+    schema:
+      items:
+        $ref: '#/definitions/Course'
+      type: array
+  errorResponse:
+    description: Generic error message returned as a string
+    schema:
+      $ref: '#/definitions/GenericError'
+  errorValidation:
+    description: Validation errors defined as an array of strings
+    schema:
+      $ref: '#/definitions/ValidationError'
+  noContentResponse:
+    description: No content is returned by this API endpoint
+schemes:
+- http
+swagger: "2.0"

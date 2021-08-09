@@ -25,7 +25,7 @@ func (p *Courses) ListAll(rw http.ResponseWriter, r *http.Request) {
 	}
 }
 
-// swagger:route GET /courses/{id} course listSingleCourse
+// swagger:route GET /courses/{id} courses listSingleCourse
 // Return a list of course from the database
 // responses:
 //	200: courseResponse
