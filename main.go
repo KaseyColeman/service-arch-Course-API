@@ -19,7 +19,7 @@ import (
 
 func main() {
 
-	l := log.New(os.Stdout, "products-api ", log.LstdFlags)
+	l := log.New(os.Stdout, "college-course-api ", log.LstdFlags)
 	v := data.NewValidation()
 
 	// create the handlers
@@ -30,19 +30,19 @@ func main() {
 
 	// handlers for API
 	getR := sm.Methods(http.MethodGet).Subrouter()
-	getR.HandleFunc("/products", ph.ListAll)
-	getR.HandleFunc("/products/{id:[0-9]+}", ph.ListSingle)
+	getR.HandleFunc("/courses", ph.ListAll)
+	getR.HandleFunc("/courses/{id:[0-9]+}", ph.ListSingle)
 
 	putR := sm.Methods(http.MethodPut).Subrouter()
-	putR.HandleFunc("/products", ph.Update)
+	putR.HandleFunc("/courses", ph.Update)
 	putR.Use(ph.MiddlewareValidateCourse)
 
 	postR := sm.Methods(http.MethodPost).Subrouter()
-	postR.HandleFunc("/products", ph.Create)
+	postR.HandleFunc("/courses", ph.Create)
 	postR.Use(ph.MiddlewareValidateCourse)
 
 	deleteR := sm.Methods(http.MethodDelete).Subrouter()
-	deleteR.HandleFunc("/products/{id:[0-9]+}", ph.Delete)
+	deleteR.HandleFunc("/courses/{id:[0-9]+}", ph.Delete)
 
 	// handler for documentation
 	opts := middleware.RedocOpts{SpecURL: "/swagger.yaml"}
