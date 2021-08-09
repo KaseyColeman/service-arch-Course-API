@@ -14,12 +14,12 @@ import (
 //  501: errorResponse
 
 // Delete handles DELETE requests and removes items from the database
-func (p *Products) Delete(rw http.ResponseWriter, r *http.Request) {
-	id := getProductID(r)
+func (p *Courses) Delete(rw http.ResponseWriter, r *http.Request) {
+	id := getCourseID(r)
 
 	p.l.Println("[DEBUG] deleting record id", id)
 
-	err := data.DeleteProduct(id)
+	err := data.DeleteCourse(id)
 	if err == data.ErrCourseNotFound {
 		p.l.Println("[ERROR] deleting record id does not exist")
 

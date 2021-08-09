@@ -10,17 +10,17 @@ import (
 )
 
 // KeyProduct is a key used for the Product object in the context
-type KeyProduct struct{}
+type KeyCourse struct{}
 
 // Products handler for getting and updating products
-type Products struct {
+type Courses struct {
 	l *log.Logger
 	v *data.Validation
 }
 
 // NewProducts returns a new products handler with the given logger
-func NewProducts(l *log.Logger, v *data.Validation) *Products {
-	return &Products{l, v}
+func NewCourse(l *log.Logger, v *data.Validation) *Courses {
+	return &Courses{l, v}
 }
 
 // ErrInvalidProductPath is an error message when the product path is not valid
@@ -40,7 +40,7 @@ type ValidationError struct {
 // Panics if cannot convert the id into an integer
 // this should never happen as the router ensures that
 // this is a valid number
-func getProductID(r *http.Request) int {
+func getCourseID(r *http.Request) int {
 	// parse the product id from the url
 	vars := mux.Vars(r)
 

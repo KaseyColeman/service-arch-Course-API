@@ -23,7 +23,7 @@ func main() {
 	v := data.NewValidation()
 
 	// create the handlers
-	ph := handlers.NewProducts(l, v)
+	ph := handlers.NewCourse(l, v)
 
 	// create a new serve mux and register the handlers
 	sm := mux.NewRouter()
@@ -35,11 +35,11 @@ func main() {
 
 	putR := sm.Methods(http.MethodPut).Subrouter()
 	putR.HandleFunc("/products", ph.Update)
-	putR.Use(ph.MiddlewareValidateProduct)
+	putR.Use(ph.MiddlewareValidateCourse)
 
 	postR := sm.Methods(http.MethodPost).Subrouter()
 	postR.HandleFunc("/products", ph.Create)
-	postR.Use(ph.MiddlewareValidateProduct)
+	postR.Use(ph.MiddlewareValidateCourse)
 
 	deleteR := sm.Methods(http.MethodDelete).Subrouter()
 	deleteR.HandleFunc("/products/{id:[0-9]+}", ph.Delete)

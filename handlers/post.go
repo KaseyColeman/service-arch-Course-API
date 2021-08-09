@@ -14,10 +14,10 @@ import (
 //  501: errorResponse
 
 // Create handles POST requests to add new products
-func (p *Products) Create(rw http.ResponseWriter, r *http.Request) {
+func (p *Courses) Create(rw http.ResponseWriter, r *http.Request) {
 	// fetch the product from the context
-	prod := r.Context().Value(KeyProduct{}).(data.Course)
+	prod := r.Context().Value(KeyCourse{}).(data.Course)
 
 	p.l.Printf("[DEBUG] Inserting product: %#v\n", prod)
-	data.AddProduct(prod)
+	data.AddCourse(prod)
 }

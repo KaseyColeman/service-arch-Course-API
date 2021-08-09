@@ -1,14 +1,15 @@
+package handlers
 
 import (
 	"context"
 	"net/http"
-	"test/data"
+	"module/data"
 )
 
 // MiddlewareValidateProduct validates the product in the request and calls next if ok
-func (p *Products) MiddlewareValidateProduct(next http.Handler) http.Handler {
+func (p *Courses) MiddlewareValidateCourse(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(rw http.ResponseWriter, r *http.Request) {
-		prod := &data.Product{}
+		prod := &data.Course{}
 
 		err := data.FromJSON(prod, r.Body)
 		if err != nil {
@@ -31,7 +32,7 @@ func (p *Products) MiddlewareValidateProduct(next http.Handler) http.Handler {
 		}
 
 		// add the product to the context
-		ctx := context.WithValue(r.Context(), KeyProduct{}, prod)
+		ctx := context.WithValue(r.Context(), KeyCourse{}, prod)
 		r = r.WithContext(ctx)
 
 		// Call the next handler, which can be another middleware in the chain, or the final handler.

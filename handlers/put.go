@@ -14,13 +14,13 @@ import (
 //  422: errorValidation
 
 // Update handles PUT requests to update products
-func (p *Products) Update(rw http.ResponseWriter, r *http.Request) {
+func (p *Courses) Update(rw http.ResponseWriter, r *http.Request) {
 
 	// fetch the product from the context
-	prod := r.Context().Value(KeyProduct{}).(data.Course)
+	prod := r.Context().Value(KeyCourse{}).(data.Course)
 	p.l.Println("[DEBUG] updating record id", prod.ID)
 
-	err := data.UpdateProduct(prod)
+	err := data.UpdateCourse(prod)
 	if err == data.ErrCourseNotFound {
 		p.l.Println("[ERROR] product not found", err)
 

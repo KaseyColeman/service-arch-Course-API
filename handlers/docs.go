@@ -42,7 +42,7 @@ type errorValidationWrapper struct {
 type productsResponseWrapper struct {
 	// All current products
 	// in: body
-	Body []data.Product
+	Body []data.Course
 }
 
 // Data structure representing a single product
@@ -50,7 +50,7 @@ type productsResponseWrapper struct {
 type productResponseWrapper struct {
 	// Newly created product
 	// in: body
-	Body data.Product
+	Body data.Course
 }
 
 // No content is returned by this API endpoint
@@ -64,7 +64,7 @@ type productParamsWrapper struct {
 	// Note: the id field is ignored by update and create operations
 	// in: body
 	// required: true
-	Body data.Product
+	Body data.Course
 }
 
 // swagger:parameters listSingleProduct deleteProduct
