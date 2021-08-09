@@ -5,7 +5,7 @@ import (
 	"module/data"
 )
 
-// swagger:route DELETE /products/{id} products deleteProduct
+// swagger:route DELETE /courses/{id} courses deleteCourse
 // Update a products details
 //
 // responses:

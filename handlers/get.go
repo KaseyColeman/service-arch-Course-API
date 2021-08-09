@@ -5,18 +5,18 @@ import (
 	"module/data"
 )
 
-// swagger:route GET /products products listProducts
-// Return a list of products from the database
+// swagger:route GET /courses courses listCourses
+// Return a list of Courses from the database
 // responses:
-//	200: productsResponse
+//	200: courseResponse
 
-// ListAll handles GET requests and returns all current products
+// ListAll handles GET requests and returns all current courses
 func (p *Courses) ListAll(rw http.ResponseWriter, r *http.Request) {
 	p.l.Println("[DEBUG] get all records")
 
 	rw.Header().Add("Content-Type", "application/json")
 
-	prods := data.GetProducts()
+	prods := data.GetCourses()
 
 	err := data.ToJSON(prods, rw)
 	if err != nil {
@@ -25,10 +25,10 @@ func (p *Courses) ListAll(rw http.ResponseWriter, r *http.Request) {
 	}
 }
 
-// swagger:route GET /products/{id} products listSingleProduct
-// Return a list of products from the database
+// swagger:route GET /courses/{id} course listSingleCourse
+// Return a list of course from the database
 // responses:
-//	200: productResponse
+//	200: courseResponse
 //	404: errorResponse
 
 // ListSingle handles GET requests
@@ -37,7 +37,7 @@ func (p *Courses) ListSingle(rw http.ResponseWriter, r *http.Request) {
 
 	p.l.Println("[DEBUG] get record id", id)
 
-	prod, err := data.GetProductByID(id)
+	prod, err := data.GetCourseByID(id)
 
 	switch err {
 	case nil:

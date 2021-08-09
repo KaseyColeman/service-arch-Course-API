@@ -6,7 +6,7 @@ import (
 	"module/data"
 )
 
-// MiddlewareValidateProduct validates the product in the request and calls next if ok
+// MiddlewareValidateCourse validates the course in the request and calls next if ok
 func (p *Courses) MiddlewareValidateCourse(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(rw http.ResponseWriter, r *http.Request) {
 		prod := &data.Course{}
@@ -20,7 +20,7 @@ func (p *Courses) MiddlewareValidateCourse(next http.Handler) http.Handler {
 			return
 		}
 
-		// validate the product
+		// validate the course
 		errs := p.v.Validate(prod)
 		if len(errs) != 0 {
 			p.l.Println("[ERROR] validating product", errs)
@@ -31,7 +31,7 @@ func (p *Courses) MiddlewareValidateCourse(next http.Handler) http.Handler {
 			return
 		}
 
-		// add the product to the context
+		// add thecourse to the context
 		ctx := context.WithValue(r.Context(), KeyCourse{}, prod)
 		r = r.WithContext(ctx)
 

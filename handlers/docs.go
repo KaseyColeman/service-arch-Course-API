@@ -1,6 +1,6 @@
-// Package classification of Product API
+// Package classification of Course API
 //
-// Documentation for Product API
+// Documentation for Course API
 //
 //	Schemes: http
 //	BasePath: /
@@ -37,17 +37,17 @@ type errorValidationWrapper struct {
 	Body ValidationError
 }
 
-// A list of products
-// swagger:response productsResponse
-type productsResponseWrapper struct {
+// A list of courses
+// swagger:response coursesResponse
+type coursesResponseWrapper struct {
 	// All current products
 	// in: body
 	Body []data.Course
 }
 
-// Data structure representing a single product
-// swagger:response productResponse
-type productResponseWrapper struct {
+// Data structure representing a single course
+// swagger:response courseResponse
+type courseResponseWrapper struct {
 	// Newly created product
 	// in: body
 	Body data.Course
@@ -58,18 +58,18 @@ type productResponseWrapper struct {
 type noContentResponseWrapper struct {
 }
 
-// swagger:parameters updateProduct createProduct
-type productParamsWrapper struct {
-	// Product data structure to Update or Create.
+// swagger:parameters updateCourse createCourse
+type courseParamsWrapper struct {
+	// Course data structure to Update or Create.
 	// Note: the id field is ignored by update and create operations
 	// in: body
 	// required: true
 	Body data.Course
 }
 
-// swagger:parameters listSingleProduct deleteProduct
-type productIDParamsWrapper struct {
-	// The id of the product for which the operation relates
+// swagger:parameters listSingleCourse deleteCourse
+type courseIDParamsWrapper struct {
+	// The id of the course for which the operation relates
 	// in: path
 	// required: true
 	ID int `json:"id"`
