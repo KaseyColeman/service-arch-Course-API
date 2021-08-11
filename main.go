@@ -15,9 +15,7 @@ import (
 )
 
 
-
 func main() {
-
 	l := log.New(os.Stdout, "college-course-api ", log.LstdFlags)
 	v := data.NewValidation()
 

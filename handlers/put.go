@@ -22,10 +22,10 @@ func (p *Courses) Update(rw http.ResponseWriter, r *http.Request) {
 
 	err := data.UpdateCourse(prod)
 	if err == data.ErrCourseNotFound {
-		p.l.Println("[ERROR] product not found", err)
+		p.l.Println("[ERROR] course not found", err)
 
 		rw.WriteHeader(http.StatusNotFound)
-		data.ToJSON(&GenericError{Message: "Product not found in database"}, rw)
+		data.ToJSON(&GenericError{Message: "Course not found in database"}, rw)
 		return
 	}
 

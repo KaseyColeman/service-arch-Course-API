@@ -26,7 +26,7 @@ type Course struct {
 	//
 	// required: true
 	// pattern: [a-z]+-[a-z]+-[a-z]+
-	Code string `json:"code" validate :"sku"`
+	Code string `json:"code"`
 
 	// the name for the instructor
 	//
@@ -85,7 +85,7 @@ func UpdateCourse(p Course) error {
 		return ErrCourseNotFound
 	}
 
-	// update the product in the DB
+	// update the course in the DB
 	courseList[i] = &p
 
 	return nil

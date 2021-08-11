@@ -21,7 +21,7 @@ func (p *Courses) ListAll(rw http.ResponseWriter, r *http.Request) {
 	err := data.ToJSON(prods, rw)
 	if err != nil {
 		// we should never be here but log the error just incase
-		p.l.Println("[ERROR] serializing product", err)
+		p.l.Println("[ERROR] serializing course", err)
 	}
 }
 
@@ -43,13 +43,13 @@ func (p *Courses) ListSingle(rw http.ResponseWriter, r *http.Request) {
 	case nil:
 
 	case data.ErrCourseNotFound:
-		p.l.Println("[ERROR] fetching product", err)
+		p.l.Println("[ERROR] fetching course", err)
 
 		rw.WriteHeader(http.StatusNotFound)
 		data.ToJSON(&GenericError{Message: err.Error()}, rw)
 		return
 	default:
-		p.l.Println("[ERROR] fetching product", err)
+		p.l.Println("[ERROR] fetching course", err)
 
 		rw.WriteHeader(http.StatusInternalServerError)
 		data.ToJSON(&GenericError{Message: err.Error()}, rw)
@@ -59,6 +59,6 @@ func (p *Courses) ListSingle(rw http.ResponseWriter, r *http.Request) {
 	err = data.ToJSON(prod, rw)
 	if err != nil {
 		// we should never be here but log the error just incase
-		p.l.Println("[ERROR] serializing product", err)
+		p.l.Println("[ERROR] serializing course", err)
 	}
 }

@@ -13,7 +13,7 @@ func (p *Courses) MiddlewareValidateCourse(next http.Handler) http.Handler {
 
 		err := data.FromJSON(prod, r.Body)
 		if err != nil {
-			p.l.Println("[ERROR] deserializing product", err)
+			p.l.Println("[ERROR] deserializing course", err)
 
 			rw.WriteHeader(http.StatusBadRequest)
 			data.ToJSON(&GenericError{Message: err.Error()}, rw)
@@ -23,7 +23,7 @@ func (p *Courses) MiddlewareValidateCourse(next http.Handler) http.Handler {
 		// validate the course
 		errs := p.v.Validate(prod)
 		if len(errs) != 0 {
-			p.l.Println("[ERROR] validating product", errs)
+			p.l.Println("[ERROR] validating course", errs)
 
 			// return the validation messages as an array
 			rw.WriteHeader(http.StatusUnprocessableEntity)

@@ -6,7 +6,7 @@ import (
 )
 
 // swagger:route POST /courses courses createCourse
-// Create a new product
+// Create a new course
 //
 // responses:
 //	200: courseResponse
@@ -18,6 +18,6 @@ func (p *Courses) Create(rw http.ResponseWriter, r *http.Request) {
 	// fetch the course from the context
 	prod := r.Context().Value(KeyCourse{}).(data.Course)
 
-	p.l.Printf("[DEBUG] Inserting product: %#v\n", prod)
+	p.l.Printf("[DEBUG] Inserting course: %#v\n", prod)
 	data.AddCourse(prod)
 }
