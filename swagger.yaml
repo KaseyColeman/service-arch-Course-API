@@ -50,24 +50,6 @@ definitions:
     - endDate
     type: object
     x-go-package: module/data
-  GenericError:
-    description: GenericError is a generic error message returned by a server
-    properties:
-      message:
-        type: string
-        x-go-name: Message
-    type: object
-    x-go-package: module/handlers
-  ValidationError:
-    description: ValidationError is a collection of validation error messages
-    properties:
-      messages:
-        items:
-          type: string
-        type: array
-        x-go-name: Messages
-    type: object
-    x-go-package: module/handlers
 info:
   description: Documentation for Course API
   title: of Course API
@@ -178,12 +160,8 @@ responses:
       type: array
   errorResponse:
     description: Generic error message returned as a string
-    schema:
-      $ref: '#/definitions/GenericError'
   errorValidation:
     description: Validation errors defined as an array of strings
-    schema:
-      $ref: '#/definitions/ValidationError'
   noContentResponse:
     description: No content is returned by this API endpoint
 schemes:

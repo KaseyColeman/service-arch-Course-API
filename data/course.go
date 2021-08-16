@@ -23,7 +23,7 @@ type Course struct {
 	//
 	// required: false
 	// min: 1
-	ID int `json:"id"` // Unique identifier for the course
+	ID int `json:"id"`
 
 	// the name for this course
 	//

@@ -26,7 +26,7 @@ import "module/data"
 type errorResponseWrapper struct {
 	// Description of the error
 	// in: body
-	Body GenericError
+	//Body GenericError
 }
 
 // Validation errors defined as an array of strings
@@ -34,7 +34,7 @@ type errorResponseWrapper struct {
 type errorValidationWrapper struct {
 	// Collection of the errors
 	// in: body
-	Body ValidationError
+	//Body ValidationError
 }
 
 // A list of courses
