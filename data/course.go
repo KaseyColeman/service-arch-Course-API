@@ -41,13 +41,13 @@ type Course struct {
 	//
 	// required: true
 	// max length: 255
-	InstructorName string `json:"instructor" validate:"required"`
+	InstructorName string `json:"instructorName"`
 
 	// date the course starts
 	//
 	// required: true
 	// max length: 255
-	CourseTime string `json:"time" validate:"required"`
+	CourseTime string `json:"courseTime"`
 
 	// date the course starts
 	//
@@ -69,19 +69,15 @@ var courseList = []*Course{ }
 
 // GetCourses returns all courses from the database
 func GetCourses() Courses {
+	courseList= courseList[:0]
 	client, _ := mongo.NewClient(options.Client().ApplyURI("mongodb+srv://connection_user:testpassword@cluster0.wql1e.mongodb.net/course?retryWrites=true&w=majority"))
-
 	contex, _ := context.WithTimeout(context.Background(), 30*time.Second)
 	client.Connect(contex)
 	courseDatabase := client.Database("course")
 	courseCatalogCollection := courseDatabase.Collection("coursecatalog")
-
 	cursor, err := courseCatalogCollection.Find(contex, bson.M{})
-
 	var courses []bson.M
-
 	if err = cursor.All(contex, &courses); err != nil { log.Fatal(err) }
-
 	courseL := &Course{ID:1,Name:"",Code:"",InstructorName:"",CourseTime:"",StartDate: "",EndDate: "", }
 	
 	for _, courseLoop := range courses {
@@ -100,9 +96,9 @@ func GetCourses() Courses {
 		str=fmt.Sprint(courseLoop["ID"])
 		intVar, _ := strconv.Atoi(str)
 		courseL.ID=intVar
-
 		courseList = append(courseList, courseL)
 	}
+
 	defer client.Disconnect(contex)
 	client.Ping(contex, readpref.Primary())
 	return courseList
@@ -137,11 +133,32 @@ func UpdateCourse(p Course) error {
 }
 
 // AddCourse adds a new course to the database
-func AddCourse(p Course) {
+func AddCourse(p *Course) {
+	GetCourses()
+	client, _ := mongo.NewClient(options.Client().ApplyURI("mongodb+srv://connection_user:testpassword@cluster0.wql1e.mongodb.net/course?retryWrites=true&w=majority"))
+	contex, _ := context.WithTimeout(context.Background(), 30*time.Second)
+	client.Connect(contex)
+	courseDatabase := client.Database("course")
+	courseCatalogCollection := courseDatabase.Collection("coursecatalog")
+	
 	// get the next id in sequence
 	maxID := courseList[len(courseList)-1].ID
 	p.ID = maxID + 1
-	courseList = append(courseList, &p)
+
+	courseResult, err := courseCatalogCollection.InsertOne(contex, bson.D{
+		{Key: "ID", Value: p.ID},
+		{Key: "Name",Value: p.Name},
+		{Key: "Code", Value: p.Code},
+		{Key: "CourseTime", Value: p.CourseTime},
+		{Key: "InstructorName", Value: p.InstructorName},
+		{Key: "StartDate",Value: p.StartDate},
+		{Key: "EndDate", Value:p.EndDate},
+	})
+
+	if err != nil{log.Fatal(err)}
+
+	fmt.Println(courseResult.InsertedID)
+	courseList = append(courseList, p)
 }
 
 // DeleteCourse deletes a course from the database

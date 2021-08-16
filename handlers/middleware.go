@@ -21,16 +21,7 @@ func (p *Courses) MiddlewareValidateCourse(next http.Handler) http.Handler {
 		}
 
 		// validate the course
-		errs := p.v.Validate(prod)
-		if len(errs) != 0 {
-			p.l.Println("[ERROR] validating course", errs)
-
-			// return the validation messages as an array
-			rw.WriteHeader(http.StatusUnprocessableEntity)
-			data.ToJSON(&ValidationError{Messages: errs.Errors()}, rw)
-			return
-		}
-
+		
 		// add thecourse to the context
 		ctx := context.WithValue(r.Context(), KeyCourse{}, prod)
 		r = r.WithContext(ctx)

@@ -16,7 +16,7 @@ import (
 // Create handles POST requests to add new courses
 func (p *Courses) Create(rw http.ResponseWriter, r *http.Request) {
 	// fetch the course from the context
-	prod := r.Context().Value(KeyCourse{}).(data.Course)
+	prod := r.Context().Value(KeyCourse{}).(*data.Course)
 
 	p.l.Printf("[DEBUG] Inserting course: %#v\n", prod)
 	data.AddCourse(prod)
