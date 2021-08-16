@@ -13,26 +13,10 @@ import (
 	"github.com/go-openapi/runtime/middleware"
 	goHandlers "github.com/gorilla/handlers"
 	"github.com/gorilla/mux"
-	"go.mongodb.org/mongo-driver/mongo"
-	"go.mongodb.org/mongo-driver/mongo/options"
-	"go.mongodb.org/mongo-driver/mongo/readpref"
 )
 
 
 func main() {
-
-	client, err := mongo.NewClient(options.Client().ApplyURI("mongodb+srv://connection_user:testpassword@cluster0.wql1e.mongodb.net/course?retryWrites=true&w=majority"))
-	if err != nil{
-		log.Fatal(err)
-	}
-
-	contex, _ := context.WithTimeout(context.Background(), 30*time.Second)
-	err = client.Connect(contex)
-	if err != nil{
-		log.Fatal(err)
-	}
-
-
 	l := log.New(os.Stdout, "college-course-api ", log.LstdFlags)
 	v := data.NewValidation()
 
@@ -89,11 +73,7 @@ func main() {
 			os.Exit(1)
 		}
 	}()
-	defer client.Disconnect(contex)
-	err = client.Ping(contex, readpref.Primary())
-	if err != nil{
-		log.Fatal(err)
-	}
+
 	// trap sigterm or interupt and gracefully shutdown the server
 	c := make(chan os.Signal, 1)
 	signal.Notify(c, os.Interrupt)

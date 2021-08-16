@@ -1,7 +1,17 @@
 package data
 
 import (
+	"context"
 	"fmt"
+	"log"
+	"strconv"
+	"time"
+
+	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/bson/primitive"
+	"go.mongodb.org/mongo-driver/mongo"
+	"go.mongodb.org/mongo-driver/mongo/options"
+	"go.mongodb.org/mongo-driver/mongo/readpref"
 )
 
 // ErrCourseNotFound is an error raised when a course can not be found in the database
@@ -10,6 +20,12 @@ var ErrCourseNotFound = fmt.Errorf("Course not found")
 // Course defines the structure for an API course
 // swagger:model
 type Course struct {
+	// the id for the course
+	//
+	// required: false
+	// min: 1
+	_id primitive.ObjectID ` bson:"_id,omitempty"` // Unique identifier for the course
+
 	// the id for the course
 	//
 	// required: false
@@ -50,16 +66,65 @@ type Course struct {
 	//
 	// required: true
 	// max length: 255
-	EndDate string `json:"endDate" validate:"required"`
-
-	
+	EndDate string `json:"endDate" validate:"required"`	
 }
+
+
+
 
 // Course defines a slice of Course
 type Courses []*Course
 
+var courseList = []*Course{ }
+
 // GetCourses returns all courses from the database
 func GetCourses() Courses {
+	client, _ := mongo.NewClient(options.Client().ApplyURI("mongodb+srv://connection_user:testpassword@cluster0.wql1e.mongodb.net/course?retryWrites=true&w=majority"))
+
+	contex, _ := context.WithTimeout(context.Background(), 30*time.Second)
+	client.Connect(contex)
+	courseDatabase := client.Database("course")
+	courseCatalogCollection := courseDatabase.Collection("coursecatalog")
+
+	cursor, err := courseCatalogCollection.Find(contex, bson.M{})
+
+	var courses []bson.M
+
+	if err = cursor.All(contex, &courses); err != nil {
+		log.Fatal(err)
+	}
+
+	courseL := &Course{
+			ID:          1,
+			Name:        "",
+			Code: "",
+			InstructorName:   "",
+			CourseTime:         "",
+			StartDate: "",
+			EndDate: "",
+		}
+	
+	for _, courseLoop := range courses {
+		str := fmt.Sprint(courseLoop["CourseTime"])
+		courseL.CourseTime= str
+		str=fmt.Sprint(courseLoop["Name"])
+		courseL.Name = str
+		str=fmt.Sprint(courseLoop["Code"])
+		courseL.Code = str
+		str=fmt.Sprint(courseLoop["InstructorName"])
+		courseL.InstructorName=str
+		str=fmt.Sprint(courseLoop["StartDate"])
+		courseL.StartDate=str
+		str=fmt.Sprint(courseLoop["EndDate"])
+		courseL.EndDate=str
+		str=fmt.Sprint(courseLoop["ID"])
+		intVar, _ := strconv.Atoi(str)
+		courseL.ID=intVar
+
+		courseList = append(courseList, courseL)
+	}
+	defer client.Disconnect(contex)
+	client.Ping(contex, readpref.Primary())
 	return courseList
 }
 
@@ -123,23 +188,4 @@ func findIndexByCourseID(id int) int {
 	return -1
 }
 
-var courseList = []*Course{
-	{
-		ID:          1,
-		Name:        "english",
-		Code: "adc-adb-adg",
-		InstructorName:   "Instructors name ",
-		CourseTime:         "10-11",
-		StartDate: "8/2/22",
-		EndDate: "4/5/24",
-	},
-	{
-		ID:          1,
-		Name:        "math",
-		Code: "adc-adb-adg",
-		InstructorName:   "Instructors name ",
-		CourseTime:         "10-11",
-		StartDate: "8/2/22",
-		EndDate: "4/5/24",
-	},
-}
+
