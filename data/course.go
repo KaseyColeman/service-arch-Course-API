@@ -8,7 +8,6 @@ import (
 	"time"
 
 	"go.mongodb.org/mongo-driver/bson"
-	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 	"go.mongodb.org/mongo-driver/mongo/readpref"
@@ -20,12 +19,6 @@ var ErrCourseNotFound = fmt.Errorf("Course not found")
 // Course defines the structure for an API course
 // swagger:model
 type Course struct {
-	// the id for the course
-	//
-	// required: false
-	// min: 1
-	_id primitive.ObjectID ` bson:"_id,omitempty"` // Unique identifier for the course
-
 	// the id for the course
 	//
 	// required: false
@@ -69,9 +62,6 @@ type Course struct {
 	EndDate string `json:"endDate" validate:"required"`	
 }
 
-
-
-
 // Course defines a slice of Course
 type Courses []*Course
 
@@ -90,19 +80,9 @@ func GetCourses() Courses {
 
 	var courses []bson.M
 
-	if err = cursor.All(contex, &courses); err != nil {
-		log.Fatal(err)
-	}
+	if err = cursor.All(contex, &courses); err != nil { log.Fatal(err) }
 
-	courseL := &Course{
-			ID:          1,
-			Name:        "",
-			Code: "",
-			InstructorName:   "",
-			CourseTime:         "",
-			StartDate: "",
-			EndDate: "",
-		}
+	courseL := &Course{ID:1,Name:"",Code:"",InstructorName:"",CourseTime:"",StartDate: "",EndDate: "", }
 	
 	for _, courseLoop := range courses {
 		str := fmt.Sprint(courseLoop["CourseTime"])
@@ -187,5 +167,3 @@ func findIndexByCourseID(id int) int {
 
 	return -1
 }
-
-
