@@ -1,0 +1,33 @@
+version: '2'
+
+services: 
+    nginx:
+        container_name: nginx
+        image: nginx:latest
+        volumes: 
+            - /etc/nginx/conf/nginx.conf
+        ports: 
+            - "8081:80"
+        restart: always
+        networks: 
+            - application-network
+
+    go-course:
+        container_name: course-api
+        image: courseapi
+        ports: 
+            - "9090:9090"
+        networks: 
+            - application-network
+
+    go-user:
+        container_name: user-api
+        image: userimg
+        ports: 
+            - "9091:9091"
+        networks: 
+            - application-network
+
+networks: 
+    application-network:
+        name: "application-network"
