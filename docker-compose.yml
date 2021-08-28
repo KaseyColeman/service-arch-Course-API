@@ -1,20 +1,20 @@
 version: '2'
 
 services: 
-    nginx:
-        container_name: nginx
-        image: nginx:latest
-        volumes: 
-            - /etc/nginx/conf/nginx.conf
-        ports: 
-            - "8081:80"
-        restart: always
-        networks: 
-            - application-network
+    # nginx:
+    #     container_name: nginx
+    #     image: nginx:latest
+    #     volumes: 
+    #         - /etc/nginx/conf/nginx.conf
+    #     ports: 
+    #         - "8081:80"
+    #     restart: always
+    #     networks: 
+    #         - application-network
 
     go-course:
         container_name: course-api
-        image: courseapi
+        image: docker.io/library/courseimage
         ports: 
             - "9090:9090"
         networks: 

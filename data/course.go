@@ -53,13 +53,13 @@ type Course struct {
 	//
 	// required: true
 	// max length: 255
-	StartDate string `json:"startDate" validate:"required"`
+	StartDate string `json:"startDate"`
 
 	// date the course starts
 	//
 	// required: true
 	// max length: 255
-	EndDate string `json:"endDate" validate:"required"`	
+	EndDate string `json:"endDate"`	
 }
 
 // Course defines a slice of Course
@@ -78,9 +78,10 @@ func GetCourses() Courses {
 	cursor, err := courseCatalogCollection.Find(contex, bson.M{})
 	var courses []bson.M
 	if err = cursor.All(contex, &courses); err != nil { log.Fatal(err) }
-	courseL := &Course{ID:1,Name:"",Code:"",InstructorName:"",CourseTime:"",StartDate: "",EndDate: "", }
+	
 	
 	for _, courseLoop := range courses {
+		courseL := &Course{ID:1,Name:"",Code:"",InstructorName:"",CourseTime:"",StartDate: "",EndDate: "", }
 		str := fmt.Sprint(courseLoop["CourseTime"])
 		courseL.CourseTime= str
 		str=fmt.Sprint(courseLoop["Name"])
@@ -96,7 +97,9 @@ func GetCourses() Courses {
 		str=fmt.Sprint(courseLoop["ID"])
 		intVar, _ := strconv.Atoi(str)
 		courseL.ID=intVar
+		fmt.Print(courseL)
 		courseList = append(courseList, courseL)
+		fmt.Print("F")
 	}
 
 	defer client.Disconnect(contex)
