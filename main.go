@@ -15,7 +15,6 @@ import (
 	"github.com/gorilla/mux"
 )
 
-
 func main() {
 	l := log.New(os.Stdout, "college-course-api ", log.LstdFlags)
 	v := data.NewValidation()
@@ -39,6 +38,10 @@ func main() {
 	postR.HandleFunc("/courses", ph.Create)
 	postR.Use(ph.MiddlewareValidateCourse)
 
+	optionsR := sm.Methods(http.MethodOptions).Subrouter()
+	optionsR.HandleFunc("/courses", ph.Options)
+	optionsR.HandleFunc("/courses/{id:[0-9]+}", ph.Options)
+
 	deleteR := sm.Methods(http.MethodDelete).Subrouter()
 	deleteR.HandleFunc("/courses/{id:[0-9]+}", ph.Delete)
 
@@ -49,14 +52,12 @@ func main() {
 	getR.Handle("/docs", sh)
 	getR.Handle("/swagger.yaml", http.FileServer(http.Dir("./")))
 
-	ch := goHandlers.CORS(goHandlers.AllowedOrigins([] string{"http://localhost:3000"}))
-
-
+	ch := goHandlers.CORS(goHandlers.AllowedOrigins([]string{"*"}))
 
 	// create a new server
 	s := http.Server{
-		Addr:         ":9090",      // configure the bind address
-		Handler:      ch(sm),                // set the default handler
+		Addr:         ":9090",           // configure the bind address
+		Handler:      ch(sm),            // set the default handler
 		ErrorLog:     l,                 // set the logger for the server
 		ReadTimeout:  5 * time.Second,   // max time to read request from the client
 		WriteTimeout: 10 * time.Second,  // max time to write response to the client
