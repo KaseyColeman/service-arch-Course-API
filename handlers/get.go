@@ -1,8 +1,8 @@
 package handlers
 
 import (
-	"net/http"
 	"module/data"
+	"net/http"
 )
 
 // swagger:route GET /courses courses listCourses
