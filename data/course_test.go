@@ -10,11 +10,12 @@ func TestCourseGet(t *testing.T) {
 }
 
 func TestSingleCourseGet(t *testing.T) {
-	_, err := GetCourseByID(4)
-	if err == nil{
+	arry:= findIndexByCourseID(1)
+	if arry != -1{
  		t.Errorf("Time to panic now")
 	}
 }
+
 
 
 
