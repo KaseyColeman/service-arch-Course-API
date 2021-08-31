@@ -16,7 +16,9 @@ func TestSingleCourseGet(t *testing.T) {
 	}
 }
 
-
+func TestCourse (t *testing.T){
+	
+}
 
 
 
